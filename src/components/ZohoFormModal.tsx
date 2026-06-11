@@ -19,8 +19,8 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
     }
   }, [isOpen]);
 
-  // Handle form submission with fetch POST (no-cors)
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // Handle form submission - let the native form submit to Zoho
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('🚀 [Zoho Form] Form submission started');
     
@@ -43,25 +43,37 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
     console.log('✅ [Zoho Form] Honeypot check passed');
     
     try {
-      console.log('📤 [Zoho Form] Sending POST request to Zoho CRM...');
-      console.log('🔗 [Zoho Form] Target URL: https://crm.zoho.in/crm/WebToContactForm');
-      console.log('⚙️ [Zoho Form] Request mode: no-cors');
+      console.log('📤 [Zoho Form] Creating hidden iframe for form submission...');
       
-      const startTime = Date.now();
-      await fetch('https://crm.zoho.in/crm/WebToContactForm', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData,
-      });
-      const endTime = Date.now();
+      // Create a hidden iframe for form submission (avoids page navigation)
+      const iframe = document.createElement('iframe');
+      iframe.name = 'zoho_submit_frame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
       
-      console.log(`✅ [Zoho Form] Request completed in ${endTime - startTime}ms`);
-      console.log('📊 [Zoho Form] Note: no-cors mode means we cannot read the response');
-      console.log('🔍 [Zoho Form] Check Network tab for actual request status');
-      console.log('✉️ [Zoho Form] Check Zoho CRM Contacts to verify data arrived');
+      // Set form target to iframe
+      form.target = 'zoho_submit_frame';
       
+      console.log('🔗 [Zoho Form] Submitting form to Zoho CRM via hidden iframe...');
+      console.log('📋 [Zoho Form] Form action:', form.action);
+      
+      // Submit the actual form (native submission to Zoho)
+      form.submit();
+      
+      console.log('✅ [Zoho Form] Form submitted to Zoho CRM');
+      console.log('✉️ [Zoho Form] Data should now appear in Zoho CRM Contacts');
+      
+      // Show success message
       setIsSubmitted(true);
       console.log('🎉 [Zoho Form] Success message displayed to user');
+      
+      // Clean up iframe after submission
+      setTimeout(() => {
+        if (document.body.contains(iframe)) {
+          document.body.removeChild(iframe);
+          console.log('🧹 [Zoho Form] Cleaned up submission iframe');
+        }
+      }, 5000);
       
       if (triggerPdfDownload) {
         console.log('📥 [Zoho Form] PDF download will trigger in 1 second...');
@@ -93,33 +105,9 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
         type: err instanceof Error ? err.name : typeof err,
       });
       
-      // Still show success since no-cors doesn't return response
+      // Still show success to user
       setIsSubmitted(true);
-      console.log('ℹ️ [Zoho Form] Showing success message despite error (no-cors limitation)');
-      
-      if (triggerPdfDownload) {
-        console.log('📥 [Zoho Form] PDF download will trigger in 1 second...');
-        setTimeout(() => {
-          console.log('📄 [Zoho Form] Triggering PDF download...');
-          const link = document.createElement('a');
-          link.href = PDF_URL;
-          link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          console.log('✅ [Zoho Form] PDF download triggered');
-          setTimeout(() => {
-            console.log('🚪 [Zoho Form] Closing modal...');
-            onClose();
-          }, 1000);
-        }, 1000);
-      } else {
-        console.log('⏱️ [Zoho Form] Modal will close in 3 seconds...');
-        setTimeout(() => {
-          console.log('🚪 [Zoho Form] Closing modal...');
-          onClose();
-        }, 3000);
-      }
+      console.log('ℹ️ [Zoho Form] Showing success message to user');
     }
   };
 

@@ -176,53 +176,53 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7faf7]">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-hero">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/10 rounded-full blur-[120px]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[120px]" />
         </div>
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-600 text-sm font-medium mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             Latest Insights
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground mb-4 leading-tight tracking-tight">
             BioAI Lab{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-500">
+            <span className="text-gradient">
               Blog
             </span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-xl mb-10">
+          <p className="text-lg text-muted-foreground max-w-xl mb-10">
             Research insights, breakthroughs, and updates from the BioAI Lab team.
           </p>
 
           {/* Search */}
           <div className="relative max-w-lg">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search articles..."
               value={searchQuery}
               onChange={e => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-green-50 border border-green-900/10 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:bg-green-100 transition-all"
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
             />
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="px-6 pb-6">
+      <section className="px-6 pb-6 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => { setSelectedCategory('All'); setCurrentPage(1); }}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 selectedCategory === 'All'
-                  ? 'bg-green-500 text-gray-900'
-                  : 'bg-green-50 border border-green-900/10 text-gray-600 hover:border-green-500/30 hover:text-gray-900'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-card border border-border text-foreground hover:border-primary/30 hover:text-foreground'
               }`}
             >
               All ({blogPosts.length})
@@ -233,8 +233,8 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                 onClick={() => { setSelectedCategory(cat.name); setCurrentPage(1); }}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedCategory === cat.name
-                    ? 'bg-green-500 text-gray-900'
-                    : 'bg-green-50 border border-green-900/10 text-gray-600 hover:border-green-500/30 hover:text-gray-900'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-card border border-border text-foreground hover:border-primary/30 hover:text-foreground'
                 }`}
               >
                 {cat.name} ({cat.count})
@@ -245,19 +245,19 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
       </section>
 
       {/* Posts Grid */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-24 bg-background">
         <div className="max-w-6xl mx-auto">
 
           {/* Loading */}
           {loading && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="rounded-2xl bg-white border border-green-900/5 overflow-hidden animate-pulse">
-                  <div className="h-48 bg-green-50" />
+                <div key={i} className="rounded-2xl bg-card border border-border overflow-hidden animate-pulse">
+                  <div className="h-48 bg-secondary" />
                   <div className="p-6 space-y-3">
-                    <div className="h-4 bg-green-50 rounded w-1/3" />
-                    <div className="h-6 bg-green-50 rounded w-full" />
-                    <div className="h-4 bg-green-50 rounded w-2/3" />
+                    <div className="h-4 bg-secondary rounded w-1/3" />
+                    <div className="h-6 bg-secondary rounded w-full" />
+                    <div className="h-4 bg-secondary rounded w-2/3" />
                   </div>
                 </div>
               ))}
@@ -267,10 +267,10 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
           {/* Error */}
           {error && !loading && (
             <div className="text-center py-24">
-              <p className="text-red-400 mb-4">{error}</p>
+              <p className="text-red-500 mb-4">{error}</p>
               <button
                 onClick={fetchBlogs}
-                className="px-5 py-2.5 rounded-xl bg-green-500/20 border border-green-500/40 text-green-600 hover:bg-green-500/30 transition-all"
+                className="px-5 py-2.5 rounded-xl bg-primary/20 border border-primary/40 text-primary hover:bg-primary/30 transition-all"
               >
                 Try Again
               </button>
@@ -280,7 +280,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
           {/* Empty */}
           {!loading && !error && filteredPosts.length === 0 && (
             <div className="text-center py-24">
-              <p className="text-gray-500 text-lg">No posts found. Check back soon!</p>
+              <p className="text-muted-foreground text-lg">No posts found. Check back soon!</p>
             </div>
           )}
 
@@ -295,7 +295,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                   className="mb-8"
                 >
                   <div
-                    className="group cursor-pointer rounded-2xl overflow-hidden border border-green-900/5 bg-white hover:border-green-500/30 hover:bg-green-50 transition-all duration-300"
+                    className="group cursor-pointer rounded-2xl overflow-hidden border border-border bg-card hover:border-primary/30 hover:shadow-card transition-all duration-300"
                     onClick={() => navigateToPost(paginatedPosts[0].slug)}
                   >
                     <div className="grid md:grid-cols-2 gap-0">
@@ -306,27 +306,27 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/blog-placeholder.jpg'; }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/80 hidden md:block" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/80 hidden md:block" />
                       </div>
                       <div className="p-8 md:p-10 flex flex-col justify-center">
                         <div className="flex flex-wrap gap-2 mb-4">
-                          <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/15 text-green-600 border border-green-500/20 font-medium">
+                          <span className="text-xs px-2.5 py-1 rounded-full bg-primary/15 text-primary border border-primary/20 font-medium">
                             {paginatedPosts[0].category}
                           </span>
-                          <span className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-gray-600">Featured</span>
+                          <span className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground">Featured</span>
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-green-700 transition-colors">
+                        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 leading-tight group-hover:text-primary transition-colors">
                           {paginatedPosts[0].title}
                         </h2>
-                        <p className="text-gray-600 leading-relaxed mb-6 line-clamp-3">
+                        <p className="text-muted-foreground leading-relaxed mb-6 line-clamp-3">
                           {paginatedPosts[0].excerpt}
                         </p>
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3 text-xs text-gray-500">
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
                             <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{paginatedPosts[0].date}</span>
                             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{paginatedPosts[0].readTime}</span>
                           </div>
-                          <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                          <span className="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                             Read more <ArrowRight className="w-4 h-4" />
                           </span>
                         </div>
@@ -344,7 +344,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="group cursor-pointer rounded-2xl overflow-hidden border border-green-900/5 bg-white hover:border-green-500/30 hover:bg-green-50 transition-all duration-300"
+                    className="group cursor-pointer rounded-2xl overflow-hidden border border-border bg-card hover:border-primary/30 hover:shadow-card transition-all duration-300"
                     onClick={() => navigateToPost(post.slug)}
                   >
                     <div className="relative h-48 overflow-hidden">
@@ -354,22 +354,22 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/blog-placeholder.jpg'; }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
                     </div>
                     <div className="p-6">
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 border border-green-500/20 mb-3 inline-block">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/20 mb-3 inline-block">
                         {post.category}
                       </span>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 leading-snug line-clamp-2 group-hover:text-green-700 transition-colors">
+                      <h3 className="text-lg font-semibold text-foreground mb-2 leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                         {post.title}
                       </h3>
-                      <p className="text-sm text-gray-500 line-clamp-2 mb-4">{post.excerpt}</p>
-                      <div className="flex items-center justify-between pt-4 border-t border-green-900/5">
-                        <div className="flex items-center gap-3 text-xs text-gray-500">
+                      <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{post.excerpt}</p>
+                      <div className="flex items-center justify-between pt-4 border-t border-border">
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
                         </div>
-                        <span className="text-green-600 text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                        <span className="text-primary text-xs font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                           Read <ArrowRight className="w-3 h-3" />
                         </span>
                       </div>
@@ -384,7 +384,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                   <button
                     onClick={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="p-2 rounded-lg bg-green-50 border border-green-900/10 text-gray-600 hover:bg-green-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-2 rounded-lg bg-card border border-border text-foreground hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
@@ -397,22 +397,22 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                           onClick={() => goToPage(page)}
                           className={`min-w-[40px] h-10 rounded-lg font-semibold transition-all ${
                             currentPage === page
-                              ? 'bg-green-500 text-gray-900'
-                              : 'bg-green-50 border border-green-900/10 text-gray-600 hover:bg-green-100'
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-card border border-border text-foreground hover:bg-secondary'
                           }`}
                         >
                           {page}
                         </button>
                       );
                     } else if (page === currentPage - 2 || page === currentPage + 2) {
-                      return <span key={page} className="text-gray-600">...</span>;
+                      return <span key={page} className="text-muted-foreground">...</span>;
                     }
                     return null;
                   })}
                   <button
                     onClick={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="p-2 rounded-lg bg-green-50 border border-green-900/10 text-gray-600 hover:bg-green-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-2 rounded-lg bg-card border border-border text-foreground hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </button>

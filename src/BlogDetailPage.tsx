@@ -147,14 +147,14 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
   // Loading
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f7faf7] pt-24 px-6">
+      <div className="min-h-screen bg-background pt-24 px-6">
         <div className="max-w-3xl mx-auto animate-pulse space-y-6">
-          <div className="h-6 bg-green-50 rounded w-1/4" />
-          <div className="h-10 bg-green-50 rounded w-3/4" />
-          <div className="h-64 bg-green-50 rounded-2xl" />
+          <div className="h-6 bg-secondary rounded w-1/4" />
+          <div className="h-10 bg-secondary rounded w-3/4" />
+          <div className="h-64 bg-secondary rounded-2xl" />
           <div className="space-y-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-4 bg-green-50 rounded" style={{ width: `${90 - i * 5}%` }} />
+              <div key={i} className="h-4 bg-secondary rounded" style={{ width: `${90 - i * 5}%` }} />
             ))}
           </div>
         </div>
@@ -165,12 +165,12 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
   // Error
   if (error || !blog) {
     return (
-      <div className="min-h-screen bg-[#f7faf7] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600 mb-4">{error || 'Post not found'}</p>
+          <p className="text-muted-foreground mb-4">{error || 'Post not found'}</p>
           <button
             onClick={onBack}
-            className="px-5 py-2.5 rounded-xl bg-green-500/20 border border-green-500/40 text-green-600 hover:bg-green-500/30 transition-all"
+            className="px-5 py-2.5 rounded-xl bg-primary/20 border border-primary/40 text-primary hover:bg-primary/30 transition-all"
           >
             Back to Blog
           </button>
@@ -180,15 +180,15 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
   }
 
   return (
-    <div className="min-h-screen bg-[#f7faf7]">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Back */}
-      <div className="px-6 pt-28 pb-4">
+      <div className="px-6 pt-28 pb-4 bg-hero">
         <div className="max-w-3xl mx-auto">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
@@ -197,11 +197,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
       </div>
 
       {/* Article */}
-      <article className="px-6 pb-24">
+      <article className="px-6 pb-24 bg-background">
         <div className="max-w-3xl mx-auto">
 
           {/* Category */}
-          <span className="text-xs px-2.5 py-1 rounded-full bg-green-500/15 text-green-600 border border-green-500/20 font-medium mb-6 inline-block">
+          <span className="text-xs px-2.5 py-1 rounded-full bg-primary/15 text-primary border border-primary/20 font-medium mb-6 inline-block">
             {blog.category}
           </span>
 
@@ -209,20 +209,20 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6"
+            className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground leading-tight mb-6"
           >
             {blog.title}
           </motion.h1>
 
           {/* Meta */}
-          <div className="flex items-center gap-4 text-sm text-gray-500 mb-10 pb-8 border-b border-green-900/10">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-10 pb-8 border-b border-border">
             <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{blog.date}</span>
             <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" />{blog.readTime}</span>
           </div>
 
           {/* Featured Image */}
           {blog.image && blog.image !== '/images/blog-placeholder.jpg' && (
-            <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-10 border border-green-900/5">
+            <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-10 border border-border">
               <img
                 src={blog.image}
                 alt={blog.title}
@@ -233,21 +233,21 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
           )}
 
           {/* Excerpt highlight */}
-          <div className="bg-green-500/5 border-l-4 border-green-500 px-6 py-4 rounded-r-xl mb-10">
-            <p className="text-gray-300 leading-relaxed">{blog.excerpt}</p>
+          <div className="bg-primary/5 border-l-4 border-primary px-6 py-4 rounded-r-xl mb-10">
+            <p className="text-muted-foreground leading-relaxed">{blog.excerpt}</p>
           </div>
 
           {/* Content */}
           <div
-            className="wp-content prose prose-invert prose-lg max-w-none"
+            className="wp-content prose prose-lg max-w-none text-foreground"
             dangerouslySetInnerHTML={{ __html: injectCTA(blog.fullContent) }}
           />
 
           {/* Footer nav */}
-          <div className="mt-16 pt-10 border-t border-green-900/10">
+          <div className="mt-16 pt-10 border-t border-border">
             <button
               onClick={onBack}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-50 border border-green-900/10 text-gray-900 text-sm font-medium hover:bg-green-500/20 hover:border-green-500/40 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-card border border-border text-foreground text-sm font-medium hover:bg-secondary hover:border-primary/40 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               More Articles
@@ -258,14 +258,14 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="px-6 pb-24 border-t border-green-900/5 pt-16">
+        <section className="px-6 pb-24 border-t border-border pt-16 bg-background">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Articles</h2>
+            <h2 className="text-2xl font-extrabold text-foreground mb-8">Related Articles</h2>
             <div className="grid sm:grid-cols-3 gap-6">
               {relatedPosts.map(post => (
                 <div
                   key={post.id}
-                  className="group cursor-pointer rounded-xl overflow-hidden border border-green-900/5 bg-white hover:border-green-500/30 transition-all"
+                  className="group cursor-pointer rounded-xl overflow-hidden border border-border bg-card hover:border-primary/30 transition-all"
                   onClick={() => navigateToPost(post.slug)}
                 >
                   <div className="relative h-36 overflow-hidden">
@@ -277,10 +277,10 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ blogSlug, onBack }) => 
                     />
                   </div>
                   <div className="p-4">
-                    <p className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-green-700 transition-colors">
+                    <p className="text-sm font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
                       {post.title}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">{post.date}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{post.date}</p>
                   </div>
                 </div>
               ))}
