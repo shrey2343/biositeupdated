@@ -95,13 +95,14 @@ function Hero() {
         }}
       />
 
-      <motion.div style={{ y, opacity }} className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-2 lg:gap-8 lg:py-24 relative z-10">
-        <div className="flex flex-col justify-center">
+      {/* Desktop with parallax, Mobile without */}
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-2 lg:gap-8 lg:py-24 relative z-10">
+        <div className="flex flex-col justify-center text-center lg:text-left">
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
+            className="inline-flex items-center justify-center lg:justify-start gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
           >
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
@@ -115,7 +116,7 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-[68px]"
+            className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-[68px]"
           >
             One Platform.{" "}
             <motion.span
@@ -131,7 +132,7 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+            className="mt-6 mx-auto lg:mx-0 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
           >
             From dissertation to discovery — BioMind Research Institute is the world's first end-to-end academic and research services ecosystem built exclusively for the global biotech community.
           </motion.p>
@@ -140,13 +141,13 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4"
           >
             <motion.a
               href={APPLY_URL}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 rounded-full bg-teal-gradient px-7 py-4 text-base font-semibold text-white shadow-float hover:opacity-95"
+              className="inline-flex items-center gap-2 rounded-full bg-teal-gradient px-7 py-4 text-base font-semibold text-white shadow-float hover:opacity-95 w-full sm:w-auto justify-center"
             >
               Book My Free Consultation
               <motion.div
@@ -156,14 +157,14 @@ function Hero() {
                 <ArrowRight className="h-4 w-4" />
               </motion.div>
             </motion.a>
-            <span className="text-sm text-muted-foreground">No pressure. Just clarity on your path.</span>
+            <span className="text-sm text-muted-foreground text-center">No pressure. Just clarity on your path.</span>
           </motion.div>
           
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-8 flex flex-wrap gap-3"
+            className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start"
           >
             {[
               { icon: Zap, label: "Zero coding skill needed" },
@@ -208,7 +209,7 @@ function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 1.2 }}
             whileHover={{ scale: 1.05 }}
-            className="absolute -right-2 top-6 flex items-center gap-3 rounded-2xl bg-card p-3 pr-5 shadow-float ring-1 ring-border sm:right-0 lg:right-[-1rem]"
+            className="hidden lg:flex absolute -right-2 top-6 items-center gap-3 rounded-2xl bg-card p-3 pr-5 shadow-float ring-1 ring-border sm:right-0 lg:right-[-1rem]"
           >
             <motion.span
               animate={{ rotate: [0, 360] }}
@@ -235,7 +236,7 @@ function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
             whileHover={{ scale: 1.05 }}
-            className="absolute -left-2 bottom-10 flex items-center gap-3 rounded-2xl bg-card p-3 pr-5 shadow-float ring-1 ring-border sm:left-0 lg:left-[-1rem]"
+            className="hidden lg:flex absolute -left-2 bottom-10 items-center gap-3 rounded-2xl bg-card p-3 pr-5 shadow-float ring-1 ring-border sm:left-0 lg:left-[-1rem]"
           >
             <motion.span
               animate={{ y: [0, -5, 0] }}
@@ -257,7 +258,7 @@ function Hero() {
             </div>
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }
@@ -474,7 +475,7 @@ function WhoAreYou() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl"
+            className="mt-4 text-3xl sm:text-4xl font-extrabold leading-tight lg:text-5xl"
           >
             Who are you?
           </motion.h2>
@@ -482,7 +483,7 @@ function WhoAreYou() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-3 text-lg text-muted-foreground"
+            className="mt-3 text-base sm:text-lg text-muted-foreground px-4"
           >
             Select your journey and unlock tailored resources designed for your goals
           </motion.p>
@@ -495,17 +496,17 @@ function WhoAreYou() {
               animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 + i * 0.2 }}
               whileHover={{ y: -10, rotateX: 5, scale: 1.02 }}
-              className="flex flex-col rounded-3xl border border-border bg-card p-8 shadow-sm"
+              className="flex flex-col rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-sm text-center md:text-left"
             >
               <motion.span
                 whileHover={{ scale: 1.1 }}
-                className="self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+                className="self-center md:self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
               >
                 {c.tag}
               </motion.span>
-              <h3 className="mt-5 text-2xl font-extrabold">{c.title}</h3>
-              <p className="mt-3 text-base text-muted-foreground">{c.desc}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
+              <h3 className="mt-5 text-xl sm:text-2xl font-extrabold">{c.title}</h3>
+              <p className="mt-3 text-sm sm:text-base text-muted-foreground">{c.desc}</p>
+              <div className="mt-5 flex flex-wrap gap-2 justify-center md:justify-start">
                 {c.features.map((f, idx) => (
                   <motion.span
                     key={f}
@@ -513,7 +514,7 @@ function WhoAreYou() {
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.4, delay: 1 + idx * 0.1 }}
                     whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="rounded-full bg-secondary px-3 py-1 text-sm font-medium"
+                    className="rounded-full bg-secondary px-3 py-1 text-xs sm:text-sm font-medium"
                   >
                     {f}
                   </motion.span>
@@ -522,7 +523,7 @@ function WhoAreYou() {
               <motion.a
                 href={c.href}
                 whileHover={{ x: 5 }}
-                className="mt-7 inline-flex items-center gap-2 self-start font-semibold text-primary hover:underline"
+                className="mt-7 inline-flex items-center gap-2 self-center md:self-start font-semibold text-primary hover:underline"
               >
                 {c.link}
                 <motion.div
@@ -535,7 +536,7 @@ function WhoAreYou() {
             </motion.div>
           ))}
         </div>
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {stats.map(([num, label], i) => (
             <motion.div
               key={label}
@@ -543,17 +544,17 @@ function WhoAreYou() {
               animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 1.2 + i * 0.1 }}
               whileHover={{ scale: 1.1, y: -5 }}
-              className="rounded-2xl border border-border bg-card p-6 text-center shadow-sm cursor-pointer"
+              className="rounded-2xl border border-border bg-card p-4 sm:p-6 text-center shadow-sm cursor-pointer"
             >
               <motion.div
                 initial={{ scale: 0 }}
                 animate={isInView ? { scale: 1 } : {}}
                 transition={{ duration: 0.8, delay: 1.4 + i * 0.1, type: "spring" }}
-                className="text-3xl font-extrabold text-gradient sm:text-4xl"
+                className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gradient"
               >
                 {num}
               </motion.div>
-              <div className="mt-2 text-sm font-medium text-muted-foreground">{label}</div>
+              <div className="mt-2 text-xs sm:text-sm font-medium text-muted-foreground">{label}</div>
             </motion.div>
           ))}
         </div>
@@ -824,7 +825,7 @@ function ImageCarousel() {
     "https://cdn.pixabay.com/photo/2024/07/14/10/28/ai-generated-8894086_1280.png", // DNA helix
     "https://cdn.pixabay.com/photo/2024/05/23/12/04/ai-generated-8783069_1280.jpg", // Laboratory equipment
     "https://cdn.pixabay.com/photo/2024/02/13/17/30/dna-8571480_1280.jpg", // Research scientist
-    "https://cdn.pixabay.com/photo/2024/02/13/17/30/dna-8571480_1280.jpg", // Cell culture
+    "https://cdn.pixabay.com/photo/2025/02/25/04/52/ai-generated-9429535_1280.jpg", // Cell culture
   ];
 
   const column3Images = [
