@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronDown, Phone, Calendar, X } from "lucide-react";
-
-const APPLY_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSe6JxqYEUKk6Zq05XCzhhiaooeZ35dsp6v9M-vmmfySv1-qjA/viewform?usp=header";
+import { ChevronDown, Phone, Calendar } from "lucide-react";
+import { useFormModal } from "@/contexts/FormModalContext";
 
 export default function Navigation() {
   const [showTrainingDropdown, setShowTrainingDropdown] = useState(false);
@@ -14,6 +12,7 @@ export default function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
   const prefersReduced = useReducedMotion();
+  const { openFormModal } = useFormModal();
 
   /* Scroll listener */
   useEffect(() => {
@@ -156,14 +155,12 @@ export default function Navigation() {
           >
             <Phone className="h-4 w-4 text-primary" /> +91 88272 72142
           </a>
-          <a
-            href={APPLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => openFormModal(false)}
             className="inline-flex items-center gap-2 rounded-full bg-cta px-4 py-2.5 text-sm font-semibold text-cta-foreground shadow-float hover:opacity-95"
           >
             <Calendar className="h-4 w-4" /> Apply Online
-          </a>
+          </button>
         </div>
       </div>
 
@@ -213,14 +210,15 @@ export default function Navigation() {
               >
                 <Phone className="h-4 w-4 text-primary" /> +91 88272 72142
               </a>
-              <a
-                href={APPLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => {
+                  openFormModal(false);
+                  setMobileMenuOpen(false);
+                }}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-cta px-4 py-2.5 text-sm font-semibold text-cta-foreground"
               >
                 <Calendar className="h-4 w-4" /> Apply Online
-              </a>
+              </button>
             </div>
           </nav>
         </div>

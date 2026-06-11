@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PopupModal from "@/components/PopupModal";
+import { useFormModal } from "@/contexts/FormModalContext";
 import heroImg from "@/assets/hero-lab.jpg";
 import dnaGlowImg from "@/assets/dna-glow.jpg";
 import pipetteImg from "@/assets/pipette.jpg";
@@ -20,6 +22,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground">
       <PromoBar />
       <Navigation />
+      <PopupModal />
       <Hero />
       <WhoAreYou />
       <AudienceSplit />
@@ -39,16 +42,26 @@ export default function Home() {
 
 function PromoBar() {
   const [open, setOpen] = useState(true);
+  const { openFormModal } = useFormModal();
+  
   if (!open) return null;
+  
+  const handleDownload = () => {
+    openFormModal(true); // true = trigger PDF download after form submission
+  };
+  
   return (
     <div className="relative bg-primary text-primary-foreground">
       <div className="mx-auto max-w-7xl px-4 py-2.5 text-center text-sm sm:text-[15px]">
         <span className="font-bold tracking-wide">Free Download</span>
         <span className="mx-2 opacity-80">•</span>
         <span className="opacity-95">The Bioinformatics Interview Bible — 20 real interview questions with model answers</span>
-        <a href={PDF_URL} download className="ml-3 inline-flex items-center gap-1 rounded-full bg-cta px-3 py-1 text-xs font-semibold text-cta-foreground hover:opacity-90">
+        <button 
+          onClick={handleDownload}
+          className="ml-3 inline-flex items-center gap-1 rounded-full bg-cta px-3 py-1 text-xs font-semibold text-cta-foreground hover:opacity-90"
+        >
           Download Free <ArrowRight className="h-3.5 w-3.5" />
-        </a>
+        </button>
       </div>
       <button onClick={() => setOpen(false)} aria-label="Dismiss" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 hover:bg-white/10">
         <X className="h-4 w-4" />
@@ -59,6 +72,7 @@ function PromoBar() {
 
 function Hero() {
   const ref = useRef(null);
+  const { openFormModal } = useFormModal();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"]
@@ -143,8 +157,8 @@ function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4"
           >
-            <motion.a
-              href={APPLY_URL}
+            <motion.button
+              onClick={() => openFormModal(false)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 rounded-full bg-teal-gradient px-7 py-4 text-base font-semibold text-white shadow-float hover:opacity-95 w-full sm:w-auto justify-center"
@@ -156,7 +170,7 @@ function Hero() {
               >
                 <ArrowRight className="h-4 w-4" />
               </motion.div>
-            </motion.a>
+            </motion.button>
             <span className="text-sm text-muted-foreground text-center">No pressure. Just clarity on your path.</span>
           </motion.div>
           
@@ -710,6 +724,7 @@ function Training() {
 }
 
 function Resources() {
+  const { openFormModal } = useFormModal();
   const resources = [
     { badge: "FREE STRATEGY GUIDE", title: "The Grant Winning Formula", subtitle: "$18M+ in NIH, DBT & Wellcome Trust grants", desc: "The exact structure behind $18M+ in funded NIH, DBT & Wellcome Trust grants.", list: ["The 5-Part Specific Aims Formula", "Innovation Argument Framework", "Agency-Specific Rules: NIH · DBT · Wellcome", "The 4-Step Resubmission Formula", "7 parts · Instant PDF · Print-ready"], tags: ["NIH R01/R21", "DBT / ICMR", "Wellcome Trust"], stats: [["$18M+", "Grants secured"], ["87%", "First-round success"], ["120+", "Proposals written"], ["42+", "Countries served"]] as [string,string][], cta: "Download Free Guide →" },
     { badge: "FREE DOWNLOAD", title: "The PhD Rescue Checklist", subtitle: "12 steps before your next supervisor meeting", desc: "12 things every struggling PhD student should do before their next supervisor meeting.", list: ["Section A — Preparation (Items 1–4)", "Section B — Knowledge & Writing (Items 5–8)", "Section C — Action & Confidence (Items 9–12)", "Instant PDF · 4 pages · Print-ready"], tags: ["4 pages", "12 items", "42+ countries"], stats: [["500+", "Users"], ["12", "Action items"], ["4", "Pages"], ["42+", "Countries"]] as [string,string][], cta: "Download Free Checklist →" },
@@ -735,7 +750,7 @@ function Resources() {
               </div>
               <div className="mt-5 flex flex-wrap gap-2 min-h-[56px] items-start">{r.tags.map((t) => <span key={t} className="rounded-full border border-border px-2.5 py-1 text-xs font-medium">{t}</span>)}</div>
               <div className="mt-5 grid grid-cols-4 gap-3 pb-1">{r.stats.map(([num, label]) => <div key={label} className="text-center"><div className="text-sm font-extrabold text-gradient">{num}</div><div className="text-[10px] text-muted-foreground leading-tight mt-1">{label}</div></div>)}</div>
-              <a href={PDF_URL} download className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-teal-gradient px-5 py-3 text-sm font-semibold text-white hover:opacity-95">{r.cta}</a>
+              <button onClick={() => openFormModal(true)} className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-teal-gradient px-5 py-3 text-sm font-semibold text-white hover:opacity-95">{r.cta}</button>
             </div>
           ))}
         </div>
@@ -745,6 +760,7 @@ function Resources() {
 }
 
 function Services() {
+  const { openFormModal } = useFormModal();
   const services = [
     { title: "Dissertation & Thesis Writing", desc: "Chapter writing · Methodology · Literature review · Committee-ready delivery", tags: ["PhD", "Master's"] },
     { title: "Research Paper & Manuscript Writing", desc: "Full drafting · Journal targeting · Submission · Rebuttal writing", tags: ["PhD", "Professors", "R&D"] },
@@ -775,7 +791,7 @@ function Services() {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <a href={APPLY_URL} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">Apply Now <ArrowRight className="h-4 w-4" /></a>
+          <button onClick={() => openFormModal(false)} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">Apply Now <ArrowRight className="h-4 w-4" /></button>
         </div>
       </div>
     </section>
@@ -1072,6 +1088,7 @@ function Global() {
 }
 
 function FinalCTA() {
+  const { openFormModal } = useFormModal();
   return (
     <section className="bg-hero py-8 sm:py-10">
       <div className="mx-auto max-w-4xl px-4 text-center">
@@ -1079,7 +1096,7 @@ function FinalCTA() {
         <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Whatever You Need Next in Biotech — <span className="text-gradient">We Are Ready.</span></h2>
         <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">Book a free 30-minute consultation for research services. Or join the next free BioAI Career Launchpad Workshop. Your next breakthrough starts at bioai.deepiotics.com</p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <a href={APPLY_URL} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">Apply Now <ArrowRight className="h-4 w-4" /></a>
+          <button onClick={() => openFormModal(false)} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">Apply Now <ArrowRight className="h-4 w-4" /></button>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">No commitment. No hard sell. Just expert guidance on your exact situation.</p>
       </div>

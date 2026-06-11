@@ -2,28 +2,28 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useFormModal } from "@/contexts/FormModalContext";
 import heroImg from "@/assets/Gemini_Generated_Image_jqj56xjqj56xjqj5.png";
 
-const APPLY_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSe6JxqYEUKk6Zq05XCzhhiaooeZ35dsp6v9M-vmmfySv1-qjA/viewform?usp=header";
-
 export default function BioCodeMastery() {
+  const { openFormModal } = useFormModal();
+  
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
-      <BCHero />
+      <BCHero openFormModal={openFormModal} />
       <BCCurriculum />
       <BCSkills />
       <BCTools />
       <BCHighlights />
       <BCCertificate />
-      <BCFinalCTA />
+      <BCFinalCTA openFormModal={openFormModal} />
       <Footer />
     </div>
   );
 }
 
-function BCHero() {
+function BCHero({ openFormModal }: { openFormModal: (trigger: boolean) => void }) {
   return (
     <section className="bg-hero">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-2 lg:gap-8 lg:py-24">
@@ -60,9 +60,9 @@ function BCHero() {
             ))}
           </div>
           <div className="mt-8">
-            <a href={APPLY_URL} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">
+            <button onClick={() => openFormModal(false)} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">
               Apply Online <ArrowRight className="h-4 w-4" />
-            </a>
+            </button>
             <p className="mt-3 text-sm text-muted-foreground">Limited Seats. Real Skills. Real Impact.</p>
           </div>
         </div>
@@ -233,7 +233,7 @@ function BCCertificate() {
   );
 }
 
-function BCFinalCTA() {
+function BCFinalCTA({ openFormModal }: { openFormModal: (trigger: boolean) => void }) {
   return (
     <section className="bg-hero py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 text-center">
@@ -242,9 +242,9 @@ function BCFinalCTA() {
           Future-ready skills for careers in <span className="text-gradient">bioinformatics, data science, and biotechnology.</span>
         </h2>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <a href={APPLY_URL} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">
+          <button onClick={() => openFormModal(false)} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">
             Apply Online <ArrowRight className="h-4 w-4" />
-          </a>
+          </button>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">bioai.deepiotics.com/biocodemastery · +91 88272 72142</p>
       </div>

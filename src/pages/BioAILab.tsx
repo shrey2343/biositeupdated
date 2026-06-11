@@ -2,17 +2,19 @@ import { useState } from "react";
 import { ArrowRight, Calendar, ChevronDown, Video, PlayCircle, MessageCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useFormModal } from "@/contexts/FormModalContext";
 import heroImg from "@/assets/hero-bioai.jpg";
 
-const APPLY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe6JxqYEUKk6Zq05XCzhhiaooeZ35dsp6v9M-vmmfySv1-qjA/viewform?usp=header";
 const PDF_URL = "/Bioinformatics_Interview_Bible_Final.pdf";
 
 export default function BioAILab() {
   const [modalOpen, setModalOpen] = useState(false);
+  const { openFormModal } = useFormModal();
+  
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
-      <BioHero onCta={() => setModalOpen(true)} />
+      <BioHero onApply={() => openFormModal(false)} onCta={() => setModalOpen(true)} />
       <AboutSection />
       <GlanceSection />
       <AudienceSection />
@@ -20,14 +22,14 @@ export default function BioAILab() {
       <BonusModuleSection />
       <FiveBonusesSection />
       <DeliverySection />
-      <FinalCTA onCta={() => setModalOpen(true)} />
+      <FinalCTA onApply={() => openFormModal(false)} onCta={() => setModalOpen(true)} />
       <Footer />
       {modalOpen && <InterviewBibleModal onClose={() => setModalOpen(false)} />}
     </div>
   );
 }
 
-function BioHero({ onCta }: { onCta: () => void }) {
+function BioHero({ onCta, onApply }: { onCta: () => void; onApply: () => void }) {
   return (
     <section className="bg-hero">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-2 lg:gap-8 lg:py-24">
@@ -266,7 +268,7 @@ function DeliverySection() {
   );
 }
 
-function FinalCTA({ onCta }: { onCta: () => void }) {
+function FinalCTA({ onCta, onApply }: { onCta: () => void; onApply: () => void }) {
   return (
     <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 text-center">
@@ -277,9 +279,9 @@ function FinalCTA({ onCta }: { onCta: () => void }) {
           <button onClick={onCta} className="inline-flex items-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-foreground shadow-float hover:opacity-95">
             Get The Bioinformatics Interview Bible <ArrowRight className="h-4 w-4" />
           </button>
-          <a href={APPLY_URL} className="inline-flex items-center gap-2 rounded-full border border-primary px-8 py-4 text-base font-semibold text-primary hover:bg-primary/5">
+          <button onClick={onApply} className="inline-flex items-center gap-2 rounded-full border border-primary px-8 py-4 text-base font-semibold text-primary hover:bg-primary/5">
             Apply Now <Calendar className="h-4 w-4" />
-          </a>
+          </button>
         </div>
       </div>
     </section>

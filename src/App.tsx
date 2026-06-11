@@ -5,6 +5,8 @@ import BioAILab from "./pages/BioAILab";
 import BioCodeMastery from "./pages/BioCodeMastery";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import { FormModalProvider, useFormModal } from "./contexts/FormModalContext";
+import ZohoFormModal from "./components/ZohoFormModal";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,10 +40,17 @@ function NotFound() {
   );
 }
 
-export default function App() {
+function AppContent() {
+  const { isFormModalOpen, closeFormModal, shouldTriggerPdfDownload } = useFormModal();
+  
   return (
     <>
       <ScrollToTop />
+      <ZohoFormModal 
+        isOpen={isFormModalOpen} 
+        onClose={closeFormModal} 
+        triggerPdfDownload={shouldTriggerPdfDownload}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/training/bioai-lab" element={<BioAILab />} />
@@ -51,5 +60,13 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <FormModalProvider>
+      <AppContent />
+    </FormModalProvider>
   );
 }
