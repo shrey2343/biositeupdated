@@ -22,52 +22,103 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
   // Handle form submission with fetch POST (no-cors)
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('🚀 [Zoho Form] Form submission started');
     
     const form = e.currentTarget;
     const formData = new FormData(form);
     
+    // Log all form data being submitted
+    console.log('📋 [Zoho Form] Form data being submitted:');
+    const formDataObject: Record<string, any> = {};
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
+      console.log(`  - ${key}:`, value);
+    });
+    
     // Honeypot check
     if (formData.get('aG9uZXlwb3Q')) {
-      console.log('Bot detected');
+      console.error('🤖 [Zoho Form] Bot detected - honeypot field filled');
       return;
     }
+    console.log('✅ [Zoho Form] Honeypot check passed');
     
     try {
+      console.log('📤 [Zoho Form] Sending POST request to Zoho CRM...');
+      console.log('🔗 [Zoho Form] Target URL: https://crm.zoho.in/crm/WebToContactForm');
+      console.log('⚙️ [Zoho Form] Request mode: no-cors');
+      
+      const startTime = Date.now();
       await fetch('https://crm.zoho.in/crm/WebToContactForm', {
         method: 'POST',
         mode: 'no-cors',
         body: formData,
       });
+      const endTime = Date.now();
+      
+      console.log(`✅ [Zoho Form] Request completed in ${endTime - startTime}ms`);
+      console.log('📊 [Zoho Form] Note: no-cors mode means we cannot read the response');
+      console.log('🔍 [Zoho Form] Check Network tab for actual request status');
+      console.log('✉️ [Zoho Form] Check Zoho CRM Contacts to verify data arrived');
+      
       setIsSubmitted(true);
+      console.log('🎉 [Zoho Form] Success message displayed to user');
       
       if (triggerPdfDownload) {
+        console.log('📥 [Zoho Form] PDF download will trigger in 1 second...');
         setTimeout(() => {
+          console.log('📄 [Zoho Form] Triggering PDF download...');
           const link = document.createElement('a');
           link.href = PDF_URL;
           link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          setTimeout(() => onClose(), 1000);
+          console.log('✅ [Zoho Form] PDF download triggered');
+          setTimeout(() => {
+            console.log('🚪 [Zoho Form] Closing modal...');
+            onClose();
+          }, 1000);
         }, 1000);
       } else {
-        setTimeout(() => onClose(), 3000);
+        console.log('⏱️ [Zoho Form] Modal will close in 3 seconds...');
+        setTimeout(() => {
+          console.log('🚪 [Zoho Form] Closing modal...');
+          onClose();
+        }, 3000);
       }
     } catch (err) {
-      console.error('Form submission error:', err);
+      console.error('❌ [Zoho Form] Form submission error:', err);
+      console.error('📊 [Zoho Form] Error details:', {
+        message: err instanceof Error ? err.message : 'Unknown error',
+        type: err instanceof Error ? err.name : typeof err,
+      });
+      
+      // Still show success since no-cors doesn't return response
       setIsSubmitted(true);
+      console.log('ℹ️ [Zoho Form] Showing success message despite error (no-cors limitation)');
+      
       if (triggerPdfDownload) {
+        console.log('📥 [Zoho Form] PDF download will trigger in 1 second...');
         setTimeout(() => {
+          console.log('📄 [Zoho Form] Triggering PDF download...');
           const link = document.createElement('a');
           link.href = PDF_URL;
           link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          setTimeout(() => onClose(), 1000);
+          console.log('✅ [Zoho Form] PDF download triggered');
+          setTimeout(() => {
+            console.log('🚪 [Zoho Form] Closing modal...');
+            onClose();
+          }, 1000);
         }, 1000);
       } else {
-        setTimeout(() => onClose(), 3000);
+        console.log('⏱️ [Zoho Form] Modal will close in 3 seconds...');
+        setTimeout(() => {
+          console.log('🚪 [Zoho Form] Closing modal...');
+          onClose();
+        }, 3000);
       }
     }
   };
