@@ -20,71 +20,73 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
   }, [isOpen]);
 
   // Handle form submission
-  useEffect(() => {
-    const handleFormSubmit = (e: Event) => {
-      const form = e.target as HTMLFormElement;
-      if (form.id === 'webform1324452000000694003') {
-        e.preventDefault();
-        
-        // Submit form via AJAX
-        const formData = new FormData(form);
-        fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          mode: 'no-cors'
-        }).then(() => {
-          setIsSubmitted(true);
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    try {
+      // Create a hidden iframe to submit the form to Zoho
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.name = 'zoho_form_iframe';
+      document.body.appendChild(iframe);
+      
+      // Update form target to submit to iframe
+      form.target = 'zoho_form_iframe';
+      
+      // Submit the form normally (this will send data to Zoho)
+      form.submit();
+      
+      // Clean up iframe after a delay
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 3000);
+      
+      // Show success message
+      setIsSubmitted(true);
+      
+      // If this is for PDF download, trigger download after 1 second
+      if (triggerPdfDownload) {
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = PDF_URL;
+          link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
           
-          // If this is for PDF download, trigger download after 1 second
-          if (triggerPdfDownload) {
-            setTimeout(() => {
-              const link = document.createElement('a');
-              link.href = PDF_URL;
-              link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              
-              // Close modal after download starts
-              setTimeout(() => {
-                onClose();
-              }, 1000);
-            }, 1000);
-          } else {
-            // Close after showing thank you message
-            setTimeout(() => {
-              onClose();
-            }, 3000);
-          }
-        }).catch(err => {
-          console.error('Form submission error:', err);
-          // Still show success since form was submitted (no-cors doesn't return response)
-          setIsSubmitted(true);
-          if (triggerPdfDownload) {
-            setTimeout(() => {
-              const link = document.createElement('a');
-              link.href = PDF_URL;
-              link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              setTimeout(() => onClose(), 1000);
-            }, 1000);
-          } else {
-            setTimeout(() => onClose(), 3000);
-          }
-        });
+          // Close modal after download starts
+          setTimeout(() => {
+            onClose();
+          }, 1000);
+        }, 1000);
+      } else {
+        // Close after showing thank you message
+        setTimeout(() => {
+          onClose();
+        }, 3000);
       }
-    };
-
-    if (isOpen) {
-      document.addEventListener('submit', handleFormSubmit);
+    } catch (err) {
+      console.error('Form submission error:', err);
+      // Still show success
+      setIsSubmitted(true);
+      if (triggerPdfDownload) {
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = PDF_URL;
+          link.download = 'Bioinformatics_Interview_Bible_Final.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => onClose(), 1000);
+        }, 1000);
+      } else {
+        setTimeout(() => onClose(), 3000);
+      }
     }
-
-    return () => {
-      document.removeEventListener('submit', handleFormSubmit);
-    };
-  }, [isOpen, triggerPdfDownload, onClose]);
+  };
 
   return (
     <AnimatePresence>
@@ -157,6 +159,7 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                       name='WebToContacts1324452000000694003' 
                       method='POST' 
                       acceptCharset='UTF-8'
+                      onSubmit={handleFormSubmit}
                     >
                       <input type='text' style={{ display: 'none' }} name='xnQsjsdp' value='e5153e90ad8ee32a302278cf7d0ba096d540f3b56f7b821974e8b307024d9924' />
                       <input type='hidden' name='zc_gad' id='zc_gad' value='' />
