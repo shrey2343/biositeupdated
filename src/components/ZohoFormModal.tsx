@@ -19,51 +19,27 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
     }
   }, [isOpen]);
 
-  // Handle form submission
+  // Handle form submission with fetch POST (no-cors)
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     const form = e.currentTarget;
+    const formData = new FormData(form);
     
-    // Validate honeypot is empty
-    const honeypot = form.querySelector<HTMLInputElement>('input[name="aG9uZXlwb3Q"]');
-    if (honeypot && honeypot.value !== '') {
-      console.log('Bot detected - honeypot filled');
-      return false;
-    }
-    
-    // Run Zoho's mandatory field validation
-    if (typeof (window as any).checkMandatory1324452000000694003 === 'function') {
-      const isValid = (window as any).checkMandatory1324452000000694003();
-      if (!isValid) {
-        return false;
-      }
+    // Honeypot check
+    if (formData.get('aG9uZXlwb3Q')) {
+      console.log('Bot detected');
+      return;
     }
     
     try {
-      // Create a hidden iframe to submit the form to Zoho
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.name = 'zoho_form_iframe';
-      document.body.appendChild(iframe);
-      
-      // Update form target to submit to iframe
-      form.target = 'zoho_form_iframe';
-      
-      // Submit the form normally (this will send data to Zoho)
-      form.submit();
-      
-      // Clean up iframe after a delay
-      setTimeout(() => {
-        if (document.body.contains(iframe)) {
-          document.body.removeChild(iframe);
-        }
-      }, 3000);
-      
-      // Show success message
+      await fetch('https://crm.zoho.in/crm/WebToContactForm', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData,
+      });
       setIsSubmitted(true);
       
-      // If this is for PDF download, trigger download after 1 second
       if (triggerPdfDownload) {
         setTimeout(() => {
           const link = document.createElement('a');
@@ -72,21 +48,13 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          
-          // Close modal after download starts
-          setTimeout(() => {
-            onClose();
-          }, 1000);
+          setTimeout(() => onClose(), 1000);
         }, 1000);
       } else {
-        // Close after showing thank you message
-        setTimeout(() => {
-          onClose();
-        }, 3000);
+        setTimeout(() => onClose(), 3000);
       }
     } catch (err) {
       console.error('Form submission error:', err);
-      // Still show success
       setIsSubmitted(true);
       if (triggerPdfDownload) {
         setTimeout(() => {
@@ -102,8 +70,6 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
         setTimeout(() => onClose(), 3000);
       }
     }
-    
-    return false;
   };
 
   return (
