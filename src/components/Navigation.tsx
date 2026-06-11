@@ -142,7 +142,7 @@ export default function Navigation() {
 
           <a href="#services" onClick={(e) => handleNavClick(e, "services")} className="text-sm font-medium text-foreground/80 hover:text-primary">Services</a>
           <a href="#why" onClick={(e) => handleNavClick(e, "why")} className="text-sm font-medium text-foreground/80 hover:text-primary">Why Us</a>
-          <a href="#blog" onClick={(e) => handleNavClick(e, "blog")} className="text-sm font-medium text-foreground/80 hover:text-primary">Blog</a>
+          <Link to="/blog" className="text-sm font-medium text-foreground/80 hover:text-primary">Blog</Link>
         </nav>
 
         {/* CTA buttons */}
@@ -199,7 +199,7 @@ export default function Navigation() {
 
             <a href="#services" onClick={(e) => handleNavClick(e, "services")} className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-accent">Services</a>
             <a href="#why" onClick={(e) => handleNavClick(e, "why")} className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-accent">Why Us</a>
-            <a href="#blog" onClick={(e) => handleNavClick(e, "blog")} className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-accent">Blog</a>
+            <Link to="/blog" className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-accent">Blog</Link>
 
             <div className="mt-3 flex flex-col gap-2">
               <a

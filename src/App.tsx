@@ -1,10 +1,12 @@
-import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import BioAILab from "./pages/BioAILab";
 import BioCodeMastery from "./pages/BioCodeMastery";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import BlogPage from "./BlogPage";
+import BlogDetailPage from "./BlogDetailPage";
 import { FormModalProvider, useFormModal } from "./contexts/FormModalContext";
 import ZohoFormModal from "./components/ZohoFormModal";
 
@@ -40,6 +42,19 @@ function NotFound() {
   );
 }
 
+function BlogWrapper() {
+  const navigate = useNavigate();
+  return <BlogPage onBackToHome={() => navigate('/')} />;
+}
+
+function BlogDetailWrapper() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const slug = location.pathname.split('/blog/')[1];
+  
+  return <BlogDetailPage blogSlug={slug} onBack={() => navigate('/blog')} />;
+}
+
 function AppContent() {
   const { isFormModalOpen, closeFormModal, shouldTriggerPdfDownload } = useFormModal();
   
@@ -57,6 +72,8 @@ function AppContent() {
         <Route path="/training/biocode-mastery" element={<BioCodeMastery />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/blog" element={<BlogWrapper />} />
+        <Route path="/blog/:slug" element={<BlogDetailWrapper />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
