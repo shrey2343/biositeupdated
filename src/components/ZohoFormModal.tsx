@@ -24,7 +24,21 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
     e.preventDefault();
     
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    
+    // Validate honeypot is empty
+    const honeypot = form.querySelector<HTMLInputElement>('input[name="aG9uZXlwb3Q"]');
+    if (honeypot && honeypot.value !== '') {
+      console.log('Bot detected - honeypot filled');
+      return false;
+    }
+    
+    // Run Zoho's mandatory field validation
+    if (typeof (window as any).checkMandatory1324452000000694003 === 'function') {
+      const isValid = (window as any).checkMandatory1324452000000694003();
+      if (!isValid) {
+        return false;
+      }
+    }
     
     try {
       // Create a hidden iframe to submit the form to Zoho
@@ -41,7 +55,9 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
       
       // Clean up iframe after a delay
       setTimeout(() => {
-        document.body.removeChild(iframe);
+        if (document.body.contains(iframe)) {
+          document.body.removeChild(iframe);
+        }
       }, 3000);
       
       // Show success message
@@ -86,6 +102,8 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
         setTimeout(() => onClose(), 3000);
       }
     }
+    
+    return false;
   };
 
   return (
@@ -161,9 +179,10 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                       acceptCharset='UTF-8'
                       onSubmit={handleFormSubmit}
                     >
-                      <input type='text' style={{ display: 'none' }} name='xnQsjsdp' value='e5153e90ad8ee32a302278cf7d0ba096d540f3b56f7b821974e8b307024d9924' />
+                      {/* Updated security tokens from fresh Zoho form */}
+                      <input type='text' style={{ display: 'none' }} name='xnQsjsdp' value='acc71d316a506e773ef155fb4a98c991c40fd358b5c801a94c7a3176a4ce397f' />
                       <input type='hidden' name='zc_gad' id='zc_gad' value='' />
-                      <input type='text' style={{ display: 'none' }} name='xmIwtLD' value='876a8bb8166b7664ca5f471747c8a3ff2c738792e3ee8d48cf845a4015fa5e832cf87a573cee9acb429b3f8fa31f2a00' />
+                      <input type='text' style={{ display: 'none' }} name='xmIwtLD' value='50b6fb7ad571e37b1ee065945563d5894d15fbe9f593d5e1b1d4ab9685e1303d1dbcf132b2e01384c3c8ba9318cd11e0' />
                       <input type='text' style={{ display: 'none' }} name='actionType' value='Q29udGFjdHM=' />
                       <input type='text' style={{ display: 'none' }} name='returnURL' value='null' />
                       
@@ -220,7 +239,15 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='Last_Name'>Name <span style={{ color: 'red' }}>*</span></label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <input type='text' id='Last_Name' name='Last Name' maxLength={80} required />
+                          <input 
+                            type='text' 
+                            id='Last_Name' 
+                            name='Last Name' 
+                            maxLength={80} 
+                            aria-required='true' 
+                            aria-label='Last Name'
+                            required 
+                          />
                         </div>
                       </div>
 
@@ -229,7 +256,15 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='Email'>Email</label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <input type='email' id='Email' name='Email' maxLength={100} />
+                          <input 
+                            type='text' 
+                            id='Email' 
+                            name='Email' 
+                            maxLength={100}
+                            autoComplete='false'
+                            aria-required='false'
+                            aria-label='Email'
+                          />
                         </div>
                       </div>
 
@@ -238,7 +273,14 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='Title'>Country</label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <input type='text' id='Title' name='Title' maxLength={100} />
+                          <input 
+                            type='text' 
+                            id='Title' 
+                            name='Title' 
+                            maxLength={100}
+                            aria-required='false'
+                            aria-label='Title'
+                          />
                         </div>
                       </div>
 
@@ -247,7 +289,14 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='Phone'>WhatsApp Number</label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <input type='text' id='Phone' name='Phone' maxLength={50} />
+                          <input 
+                            type='text' 
+                            id='Phone' 
+                            name='Phone' 
+                            maxLength={50}
+                            aria-required='false'
+                            aria-label='Phone'
+                          />
                         </div>
                       </div>
 
@@ -256,7 +305,16 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='CONTACTCF12'>I am a</label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <select className='zcwf_col_fld_slt' id='CONTACTCF12' name='CONTACTCF12'>
+                          <select 
+                            className='zcwf_col_fld_slt' 
+                            id='CONTACTCF12' 
+                            name='CONTACTCF12'
+                            role='combobox'
+                            aria-expanded='false'
+                            aria-haspopup='listbox'
+                            aria-required='false'
+                            aria-label='CONTACTCF12'
+                          >
                             <option value='-None-'>-None-</option>
                             <option value="UG / Bachelor's Student">UG / Bachelor's Student</option>
                             <option value="PG / Master's Student">PG / Master's Student</option>
@@ -276,21 +334,30 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='CONTACTCF10'>I'm interested in…</label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <select className='zcwf_col_fld_slt' id='CONTACTCF10' name='CONTACTCF10'>
+                          <select 
+                            className='zcwf_col_fld_slt' 
+                            id='CONTACTCF10' 
+                            name='CONTACTCF10'
+                            role='combobox'
+                            aria-expanded='false'
+                            aria-haspopup='listbox'
+                            aria-required='false'
+                            aria-label='CONTACTCF10'
+                          >
                             <option value='-None-'>-None-</option>
                             <option value='NGS Data Analysis for Bioinformatics'>NGS Data Analysis for Bioinformatics</option>
-                            <option value='Genomics & Transcriptomics (RNA-Seq / DNA-Seq)'>Genomics & Transcriptomics (RNA-Seq / DNA-Seq)</option>
-                            <option value='Biotechnology & Omics Technologies'>Biotechnology & Omics Technologies</option>
-                            <option value='Microbial Genomics & Metagenomics'>Microbial Genomics & Metagenomics</option>
+                            <option value='Genomics &amp; Transcriptomics (RNA-Seq / DNA-Seq)'>Genomics &amp; Transcriptomics (RNA-Seq / DNA-Seq)</option>
+                            <option value='Biotechnology &amp; Omics Technologies'>Biotechnology &amp; Omics Technologies</option>
+                            <option value='Microbial Genomics &amp; Metagenomics'>Microbial Genomics &amp; Metagenomics</option>
                             <option value='Molecular Biology with NGS Applications'>Molecular Biology with NGS Applications</option>
-                            <option value='Agricultural Genomics & Plant Bioinformatics'>Agricultural Genomics & Plant Bioinformatics</option>
-                            <option value='Zoology & Animal Genomics'>Zoology & Animal Genomics</option>
-                            <option value='Botany & Plant Omics Analysis'>Botany & Plant Omics Analysis</option>
-                            <option value='Biochemistry & Systems Biology'>Biochemistry & Systems Biology</option>
-                            <option value='Genetic Engineering & CRISPR Data Analysis'>Genetic Engineering & CRISPR Data Analysis</option>
-                            <option value='B.Pharma & Pharmaceutical Bioinformatics'>B.Pharma & Pharmaceutical Bioinformatics</option>
-                            <option value='M.Pharma & Advanced Drug Discovery Informatics'>M.Pharma & Advanced Drug Discovery Informatics</option>
-                            <option value='Life Sciences Research using AI & Bioinformatics'>Life Sciences Research using AI & Bioinformatics</option>
+                            <option value='Agricultural Genomics &amp; Plant Bioinformatics'>Agricultural Genomics &amp; Plant Bioinformatics</option>
+                            <option value='Zoology &amp; Animal Genomics'>Zoology &amp; Animal Genomics</option>
+                            <option value='Botany &amp; Plant Omics Analysis'>Botany &amp; Plant Omics Analysis</option>
+                            <option value='Biochemistry &amp; Systems Biology'>Biochemistry &amp; Systems Biology</option>
+                            <option value='Genetic Engineering &amp; CRISPR Data Analysis'>Genetic Engineering &amp; CRISPR Data Analysis</option>
+                            <option value='B.Pharma &amp; Pharmaceutical Bioinformatics'>B.Pharma &amp; Pharmaceutical Bioinformatics</option>
+                            <option value='M.Pharma &amp; Advanced Drug Discovery Informatics'>M.Pharma &amp; Advanced Drug Discovery Informatics</option>
+                            <option value='Life Sciences Research using AI &amp; Bioinformatics'>Life Sciences Research using AI &amp; Bioinformatics</option>
                             <option value='Research Paper / Manuscript Support'>Research Paper / Manuscript Support</option>
                             <option value='Dissertation / Thesis Support'>Dissertation / Thesis Support</option>
                             <option value='Bioinformatics Training (Linux / R / Python / NGS)'>Bioinformatics Training (Linux / R / Python / NGS)</option>
@@ -304,16 +371,127 @@ export default function ZohoFormModal({ isOpen, onClose, triggerPdfDownload = fa
                           <label htmlFor='Description'>Anything specific we should know?</label>
                         </div>
                         <div className='zcwf_col_fld'>
-                          <textarea id='Description' name='Description'></textarea>
+                          <textarea 
+                            id='Description' 
+                            name='Description'
+                            aria-multiline='true'
+                            aria-required='false'
+                            aria-label='Description'
+                          ></textarea>
                         </div>
                       </div>
 
-                      <input type='text' style={{ display: 'none' }} name='aG9uZXlwb3Q' value='' />
+                      {/* Honeypot field - bot protection */}
+                      <input 
+                        type='text' 
+                        style={{ display: 'none' }} 
+                        name='aG9uZXlwb3Q' 
+                        defaultValue='' 
+                        autoComplete='off'
+                        tabIndex={-1}
+                      />
 
                       <div className='zcwf_row' style={{ textAlign: 'center', marginTop: '30px' }}>
-                        <input type='submit' className='formsubmit zcwf_button' value='Submit' />
+                        <input 
+                          type='submit' 
+                          id='formsubmit'
+                          className='formsubmit zcwf_button' 
+                          value='Submit'
+                          role='button'
+                          aria-label='Submit'
+                          title='Submit'
+                        />
                       </div>
                     </form>
+                    
+                    {/* Zoho validation and tracking scripts */}
+                    <script dangerouslySetInnerHTML={{ __html: `
+                      function addAriaSelected1324452000000694003(){
+                        var optionElem = event.target;
+                        var previousSelectedOption = optionElem.querySelector('[aria-selected=true]');
+                        if (previousSelectedOption) {
+                          previousSelectedOption.removeAttribute('aria-selected');
+                        }
+                        optionElem.querySelectorAll('option')[optionElem.selectedIndex].ariaSelected = 'true';
+                      }
+                      
+                      function validateEmail1324452000000694003(){
+                        var form = document.forms['WebToContacts1324452000000694003'];
+                        var emailFld = form.querySelectorAll('[ftype=email]');
+                        var i;
+                        for(i = 0; i < emailFld.length; i++) {
+                          var emailVal = emailFld[i].value;
+                          if((emailVal.replace(/^\\s+|\\s+$/g, '')).length != 0) {
+                            var atpos = emailVal.indexOf('@');
+                            var dotpos = emailVal.lastIndexOf('.');
+                            if(atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= emailVal.length) {
+                              alert('Please enter a valid email address.');
+                              emailFld[i].focus();
+                              return false;
+                            }
+                          }
+                        }
+                        return true;
+                      }
+                      
+                      function checkMandatory1324452000000694003(isAjax){
+                        var mndFileds = new Array('Last Name');
+                        var fldLangVal = new Array('Name');
+                        for(i = 0; i < mndFileds.length; i++) {
+                          var fieldObj = document.forms['WebToContacts1324452000000694003'][mndFileds[i]];
+                          if(fieldObj) {
+                            if(((fieldObj.value).replace(/^\\s+|\\s+$/g, '')).length == 0) {
+                              if(fieldObj.type == 'file') {
+                                alert('Please select a file to upload.');
+                                fieldObj.focus();
+                                return false;
+                              }
+                              alert(fldLangVal[i] + ' cannot be empty.');
+                              fieldObj.focus();
+                              return false;
+                            } else if(fieldObj.nodeName == 'SELECT') {
+                              if(fieldObj.options[fieldObj.selectedIndex].value == '-None-') {
+                                alert(fldLangVal[i] + ' cannot be none.');
+                                fieldObj.focus();
+                                return false;
+                              }
+                            } else if(fieldObj.type == 'checkbox') {
+                              if(fieldObj.checked == false) {
+                                alert('Please accept ' + fldLangVal[i]);
+                                fieldObj.focus();
+                                return false;
+                              }
+                            }
+                            try {
+                              if(fieldObj.name == 'Last Name') {
+                                name = fieldObj.value;
+                              }
+                            } catch(e) {}
+                          }
+                        }
+                        if(!validateEmail1324452000000694003()) {
+                          return false;
+                        }
+                        var urlparams = new URLSearchParams(window.location.search);
+                        if(urlparams.has('service') && (urlparams.get('service') === 'smarturl')) {
+                          var webform = document.getElementById('webform1324452000000694003');
+                          var service = urlparams.get('service');
+                          var smarturlfield = document.createElement('input');
+                          smarturlfield.setAttribute('type', 'hidden');
+                          smarturlfield.setAttribute('value', service);
+                          smarturlfield.setAttribute('name', 'service');
+                          webform.appendChild(smarturlfield);
+                        }
+                        document.querySelector('.crmWebToEntityForm .formsubmit').setAttribute('disabled', true);
+                        return true;
+                      }
+                    ` }} />
+                    
+                    {/* Analytics tracking */}
+                    <script 
+                      id='wf_anal' 
+                      src='https://crm.zohopublic.in/crm/WebFormAnalyticsServeServlet?rid=5389518a22626e919d4e342c73fdc7413e148f5ec07ee4e6bab3973c3fcd8f2c5ac9f7cc4f35bff618ed8181afc38037gid066c17af1414e6b10cf60d7838570feee321960521e37eedad3a4b8f6b05eab5giddc1e98dada0f77f225abb2740e114124ff48d6f2de12163428e45dc917e57ebfgid0a9d85af502d8529eebb580c8568f59698e6eeb31f305025675149ceaa5784fd&tw=e89eaf69156cdf131994a77d0b897f4f9131081bc7a33fcdddfc836045f00a12'
+                    />
                   </div>
                 </div>
               )}
