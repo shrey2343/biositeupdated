@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import Home from "./pages/Home";
 import BioAILab from "./pages/BioAILab";
 import BioCodeMastery from "./pages/BioCodeMastery";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -44,6 +46,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/training/bioai-lab" element={<BioAILab />} />
         <Route path="/training/biocode-mastery" element={<BioCodeMastery />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

@@ -268,7 +268,7 @@ function BentoShowcase() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 sm:py-24 relative overflow-hidden">
+    <section ref={ref} className="py-8 sm:py-10 relative overflow-hidden">
       {/* Animated background orbs */}
       <motion.div
         animate={{
@@ -455,7 +455,7 @@ function WhoAreYou() {
   const stats: [string, string][] = [["500+", "Students Trained"], ["$18M+", "Grants Secured"], ["350+", "Papers Published"], ["42+", "Countries Served"]];
   
   return (
-    <section ref={ref} className="py-20 sm:py-24">
+    <section ref={ref} className="py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -569,7 +569,7 @@ function AudienceSplit() {
     { num: "02", tag: "For Researchers & Orgs", title: "Specialist Support Your Research Actually Deserves", body: "You don't need a generalist — you need a partner with domain depth equal to yours. Every BioAI Lab expert holds a PhD in their specialisation. An 87% grant success rate and $18M+ in secured funding speaks louder than promises.", list: ["Dissertation & manuscript writing — committee-ready", "Genomic & EHR data pipelines — publication-grade", "NIH, NSF, Wellcome Trust, DBT grant proposals", "White papers, biosafety policy & regulatory submissions"], cta: "Explore Research Services →", href: "#services" },
   ];
   return (
-    <section className="bg-secondary py-20 sm:py-24">
+    <section className="bg-secondary py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">// Two Paths. One Destination.</p>
@@ -603,7 +603,7 @@ function Training() {
   ];
   
   return (
-    <section id="training" ref={ref} className="py-20 sm:py-24 relative overflow-hidden">
+    <section id="training" ref={ref} className="py-8 sm:py-10 relative overflow-hidden">
       {/* Animated background */}
       <motion.div
         animate={{
@@ -716,7 +716,7 @@ function Resources() {
     { badge: "FREE DOWNLOAD", title: "The Bioinformatics Interview Bible", subtitle: "20 questions · 20 answers · zero blanks", desc: "20 real interview questions with model answers — written in simple English every biology student can understand.", list: ["Section A — NGS Basics (Items 1–5)", "Section B — Tools & Quality Control (Items 6–9)", "Section C — Alignment & Variants (Items 10–14)", "Section D — RNA-Seq, AI & Clinical (Items 15–20)", "Instant PDF · 15 pages · Print-ready"], tags: ["15 pages", "20 questions", "Simple English"], stats: [["20", "Questions"], ["20", "Answers"], ["15", "Pages"], ["100%", "Free"]] as [string,string][], cta: "Download Free Bible →" },
   ];
   return (
-    <section className="bg-secondary py-20 sm:py-24">
+    <section className="bg-secondary py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">Free Resources</p>
@@ -725,16 +725,16 @@ function Resources() {
         </div>
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {resources.map((r) => (
-            <div key={r.title} className="flex flex-col rounded-3xl border border-border bg-card p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-card">
-              <span className="self-start rounded-full bg-cta px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cta-foreground">{r.badge}</span>
-              <p className="mt-4 text-sm text-muted-foreground">{r.desc}</p>
-              <div className="mt-5 rounded-2xl border border-border bg-secondary p-5">
-                <p className="font-extrabold">{r.title}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{r.subtitle}</p>
-                <ul className="mt-4 space-y-1.5">{r.list.map((item) => <li key={item} className="flex items-start gap-2 text-xs"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" /><span>{item}</span></li>)}</ul>
+            <div key={r.title} className="flex flex-col rounded-3xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-card h-full">
+              <span className="self-start rounded-full bg-cta px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-cta-foreground">{r.badge}</span>
+              <p className="mt-4 text-sm text-muted-foreground min-h-[40px]">{r.desc}</p>
+              <div className="mt-5 flex-1 rounded-2xl border border-border bg-secondary p-5">
+                <p className="font-extrabold min-h-[48px] flex items-center">{r.title}</p>
+                <p className="mt-1 text-xs text-muted-foreground min-h-[32px]">{r.subtitle}</p>
+                <ul className="mt-4 space-y-2">{r.list.map((item) => <li key={item} className="flex items-start gap-2 text-xs"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" /><span>{item}</span></li>)}</ul>
               </div>
-              <div className="mt-4 flex flex-wrap gap-2">{r.tags.map((t) => <span key={t} className="rounded-full border border-border px-2.5 py-0.5 text-xs font-medium">{t}</span>)}</div>
-              <div className="mt-4 grid grid-cols-4 gap-2">{r.stats.map(([num, label]) => <div key={label} className="text-center"><div className="text-sm font-extrabold text-gradient">{num}</div><div className="text-[10px] text-muted-foreground leading-tight">{label}</div></div>)}</div>
+              <div className="mt-5 flex flex-wrap gap-2 min-h-[56px] items-start">{r.tags.map((t) => <span key={t} className="rounded-full border border-border px-2.5 py-1 text-xs font-medium">{t}</span>)}</div>
+              <div className="mt-5 grid grid-cols-4 gap-3 pb-1">{r.stats.map(([num, label]) => <div key={label} className="text-center"><div className="text-sm font-extrabold text-gradient">{num}</div><div className="text-[10px] text-muted-foreground leading-tight mt-1">{label}</div></div>)}</div>
               <a href={PDF_URL} download className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-teal-gradient px-5 py-3 text-sm font-semibold text-white hover:opacity-95">{r.cta}</a>
             </div>
           ))}
@@ -753,7 +753,7 @@ function Services() {
     { title: "Policy Document Writing", desc: "White papers · Biosafety policy · Regulatory submissions · Public health briefs", tags: ["Govt", "NGO", "Think Tanks"] },
   ];
   return (
-    <section id="services" className="py-20 sm:py-24">
+    <section id="services" className="py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">// Research & Expert Services</p>
@@ -767,10 +767,10 @@ function Services() {
         </div>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
-            <div key={s.title} className="flex flex-col rounded-3xl border border-border bg-card p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-card">
-              <h3 className="text-xl font-extrabold">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-              <div className="mt-4 flex flex-wrap gap-2">{s.tags.map((t) => <span key={t} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{t}</span>)}</div>
+            <div key={s.title} className="flex flex-col rounded-3xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-card h-full">
+              <h3 className="text-xl font-extrabold min-h-[56px] flex items-start">{s.title}</h3>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground flex-1 min-h-[60px]">{s.desc}</p>
+              <div className="mt-5 flex flex-wrap gap-2 min-h-[36px] content-start">{s.tags.map((t) => <span key={t} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{t}</span>)}</div>
             </div>
           ))}
         </div>
@@ -792,7 +792,7 @@ function WhyUs() {
     { num: "06", title: "Curriculum That Moves With the Market", body: "Our courses are reviewed every quarter with industry partners. We teach what employers are actually hiring for right now — not what was relevant when someone wrote a textbook three years ago." },
   ];
   return (
-    <section id="why" className="bg-secondary py-20 sm:py-24">
+    <section id="why" className="bg-secondary py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">// Why BioAI Lab · Deepiotics</p>
@@ -853,7 +853,7 @@ function ImageCarousel() {
   const tripleImages = (imgs: string[]) => [...imgs, ...imgs, ...imgs];
 
   return (
-    <section className="py-20 sm:py-24 overflow-hidden bg-secondary">
+    <section className="py-8 sm:py-10 overflow-hidden bg-secondary">
       <div className="mx-auto max-w-7xl px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -1014,7 +1014,7 @@ function Testimonials() {
     { tag: "UG STUDENT → INDUSTRY", icon: "🚀", quote: "I was a final-year biotech student with zero coding skills. The No-Code Bio-AI course changed everything. Eight months later I had a job offer from a Singapore biotech firm — and a CV line every interviewer asks about.", name: "Priya L.", role: "Computational Biologist · Genentech, Singapore" },
   ];
   return (
-    <section className="py-20 sm:py-24">
+    <section className="py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">// What Our Clients Say</p>
@@ -1048,7 +1048,7 @@ function Global() {
     { flag: "🇦🇺", name: "Australia", desc: "NHMRC grants, Go8 university clients, Australian biotech sector partnerships." },
   ];
   return (
-    <section id="blog" className="bg-secondary py-20 sm:py-24">
+    <section id="blog" className="bg-secondary py-8 sm:py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">// International Reach</p>
@@ -1073,7 +1073,7 @@ function Global() {
 
 function FinalCTA() {
   return (
-    <section className="bg-hero py-20 sm:py-24">
+    <section className="bg-hero py-8 sm:py-10">
       <div className="mx-auto max-w-4xl px-4 text-center">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary">// Take the First Step</p>
         <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">Whatever You Need Next in Biotech — <span className="text-gradient">We Are Ready.</span></h2>
